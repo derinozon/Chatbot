@@ -1,0 +1,28 @@
+{
+  "name": "chatbot",
+  "version": "1.0.0",
+  "description": "Internet Technologies Chatbot project",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derinozon/Chatbot.git"
+  },
+  "author": "Derin Özön, Aw Thura, Wiramon Thongrubbai, Abubakr Aslam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/derinozon/Chatbot/issues"
+  },
+  "homepage": "https://github.com/derinozon/Chatbot#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "^5.0.1",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
+    "web-vitals": "^2.1.4"
+  }
+}

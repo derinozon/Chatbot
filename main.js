@@ -19,8 +19,12 @@ io.on("connection", (socket) => {
     });
 
     socket.on("dish", (data) => {
-        console.log("recieved dish: "+data)
-        // socket.emit("answer", answer);
+		result = "I didnt quite understand that";
+
+		if (data.includes('cheese'))
+			result = "You should try our delicious Quattro Formaggi!"
+
+        socket.emit("answer", result);
     });
 });
 

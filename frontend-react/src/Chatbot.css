@@ -1,0 +1,18 @@
+.chat_window {
+    width: calc(100% - 20px);
+    max-width: 500px;
+    height: 500px;
+    border-radius: 10px;
+    margin: 30px auto;
+    left: 50%;
+    top: 30%;
+    transform: translateX(0%) translateY(0%);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background: url("./resources/Background_yellow.png") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+     background-size: cover;
+    overflow: hidden;
+}

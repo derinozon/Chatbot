@@ -7,8 +7,10 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 
-server.listen(5000, function () {
-    console.log("server started at port 5000");
+const PORT = process.env.PORT || 1337;
+
+server.listen(PORT, function () {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
 
 io.on("connection", (socket) => {

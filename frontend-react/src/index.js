@@ -5,3 +5,9 @@ import "./index.css"
 const container = document.getElementById('chatbot');
 const cb = ReactDOM.createRoot(container);
 cb.render(<Chatbot />)
+
+function closeChat () {
+    container.style.display = "none";
+}
+
+export {closeChat}

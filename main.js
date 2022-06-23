@@ -30,4 +30,4 @@ io.on("connection", (socket) => {
     });
 });
 
-app.use(express.static('build'));
+app.use(express.static('frontend-react/build'));

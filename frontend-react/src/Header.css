@@ -1,0 +1,56 @@
+.top_menu {
+    background-color: #fff;
+    width: 100%;
+    padding: 20px 0 15px;
+    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+}
+.top_menu .buttons {
+    margin: 3px 0 0 20px;
+    position: absolute;
+}
+.top_menu .buttons .button {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+}
+.top_menu .buttons .button.close {
+    background: url("./resources/close.png") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+     background-size: cover;
+}
+.top_menu .buttons .button.minimize {
+    background: url("./resources/minimize.png") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+     background-size: cover;
+}
+.top_menu .buttons .button.maximize {
+    background: url("./resources/maximize.png") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+     background-size: cover;
+}
+.top_menu .title {
+    text-align: center;
+    color: #0f0101;
+    font-family: Arial;
+    font-size: 20px;
+}
+/*.user-background{
+    background: url("./images/all-bg-title.jpg") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+     background-size: cover;
+  }*/

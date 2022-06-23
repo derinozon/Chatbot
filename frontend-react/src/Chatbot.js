@@ -39,7 +39,7 @@ function Chatbot() {
       Render HTML
     */
     return (
-        <div className="chat_window">
+        <div className="chat_window"  data-closable>
             <Header />
             <MessageArea messages={messages} />
             <UserInput onSubmitMessage={onSubmitMessage} />

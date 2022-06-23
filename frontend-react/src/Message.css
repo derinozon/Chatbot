@@ -17,7 +17,7 @@
     border: 2px solid #4959e1;
 }
 #messages .message.left .text_wrapper {
-    background-color: #ede90b;
+    background-color: rgba(206, 219, 22, 0.892);
     margin-left: 20px;
 }
 #messages .message.left .text_wrapper::after, #messages .message.left .text_wrapper::before {
@@ -39,7 +39,7 @@
     border: 2px solid #4959e1;
 }
 #messages .message.right .text_wrapper {
-    background-color: #ff9604;
+    background-color: rgba(223, 156, 9, 0.892);
     margin-right: 20px;
     float: right;
 }
@@ -48,6 +48,7 @@
     border-left-color: #ff9604;
 }
 #messages .message.right .text {
+    float: right;
     color: #ffffff;
 }
 #messages .message.appeared {

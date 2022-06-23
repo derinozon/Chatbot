@@ -30,4 +30,4 @@ io.on("connection", (socket) => {
     });
 });
 
-app.use(express.static('dummy'));
+app.use(express.static('build'));

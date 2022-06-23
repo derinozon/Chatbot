@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
         console.log(`disconnect ${socket.id} due to ${reason}`);
     });
 
-    socket.on("dish", (data) => {
+    socket.on("question", (data) => {
 		result = "I didnt quite understand that";
 
 		if (data.includes('cheese'))

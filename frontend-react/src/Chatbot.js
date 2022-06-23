@@ -21,7 +21,7 @@ function Chatbot() {
         //if last message is a non-empty question, ask the server
         let lastMessage = messages[messages.length - 1]
         if (lastMessage.text !== "" && lastMessage.position === "right") {
-            socket.emit('dish', lastMessage.text);
+            socket.emit('question', lastMessage.text);
         }
 
         //handle server responses

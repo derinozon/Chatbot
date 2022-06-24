@@ -64,31 +64,31 @@ const arrayMenu = [
   {
     name: "Carbonara Pasta",
     allergy: ["dairy", "fat", "vegan"],
-    ingredient: ["cheesy", "dairy"],
+    ingredient: ["meat", "dairy"],
     point: 0,
   },
   {
     name: "Margahrita Pizza",
     allergy: ["dairy", "fat", "vegan"],
-    ingredient: ["sour", "dairy"],
+    ingredient: ["sour", "dairy", "meat"],
     point: 0,
   },
   {
     name: "Seafood Pizza",
     allergy: ["dairy", "fat", "seafood", "vegan"],
-    ingredient: ["cheesy", "dairy", "seafood"],
+    ingredient: ["salty", "dairy", "seafood"],
     point: 0,
   },
   {
     name: "Mushroom Pizza",
     allergy: ["dairy", "fat"],
-    ingredient: ["cheesy", "dairy"],
+    ingredient: ["mushroom", "dairy"],
     point: 0,
   },
   {
     name: "Salad",
     allergy: [],
-    ingredient: ["cheesy"],
+    ingredient: ["lowfat"],
     point: 0,
   },
   {
@@ -127,13 +127,14 @@ function noReply(array, step) {
 const arrayKeyword = [
   { dairy: ["dairy", "milk", "cream", "cheese"] },
   { seafood: ["seafood", "shrimp", "fish", "squid", "octopus", "crab"] },
-  { meat: ["pork", "beef", "chicken", "meat"] },
+  { meat: ["meat", "beef", "chicken", "pork"] },
   { sweet: ["sweet", "dessert", "sugar"] },
   { spicy: ["spicy", "hot", "chilli", "strong"] },
   { salty: ["savory", "salt"] },
   { sour: ["sour", "lemon"] },
   { lowfat: ["lowfat", "low-fat", "on diet", "i am fat"] },
   { vegan: ["vegan", "vegetarian"] },
+  { mushroom: ["mushroom", "champignon"] },
 ];
 
 const arrayGoodBad = [
@@ -149,6 +150,15 @@ const arrayGoodBad = [
   },
 ];
 
+const arrayDrink = [
+  { menu: ["Carbonara Pasta"], drink: "white wine" },
+  {
+    menu: ["Margahrita Pizza", "Mushroom Pizza", "Seafood Pizza"],
+    drink: "cola",
+  },
+  { menu: ["Salad", "Tiramisu"], drink: "water" },
+];
+
 function returnTag(arrayGoodBad, inputData) {
   return Math.min.apply(
     null,
@@ -158,6 +168,17 @@ function returnTag(arrayGoodBad, inputData) {
       )
       .map((object) => object.step)
   );
+}
+
+function findDrink(dish) {
+  for (let i = 0; i < arrayDrink.length; i++) {
+    let a = arrayDrink[i].menu;
+    for (let j = 0; j < a.length; j++) {
+      if (dish === a[j]) {
+        return arrayDrink[i].drink;
+      }
+    }
+  }
 }
 
 function createUserReq(tag, keywordarray, inputdata, result, keyresult) {
@@ -207,19 +228,16 @@ const recommendMenu = (array, inputReq) => {
   return finalList;
 };
 
-const waitingForResponse = async () => {
-  await delay(3000);
-  console.log("Waited 30s");
-  document.getElementById("btn").click();
-};
-
 let count = 0;
 let phase = 0;
 let finalList;
 let i = 0;
+let index = 0;
 let userReq = [];
 let keyReq = { allergy: [], flavor: [], ingredient: [] };
 let running = true;
+let selectedDish;
+let drink;
 
 submitButton.addEventListener("click", (button) => {
   let inputString = document.querySelector(".textInput").value;
@@ -243,12 +261,12 @@ submitButton.addEventListener("click", (button) => {
       }
     } else if (phase === 2) {
       let tag1 = arrayGoodBad[returnTag(arrayGoodBad, userInput)].tag;
-      console.log(tag1);
       createUserReq(tag1, arrayKeyword, userInput, userReq, keyReq);
       botResponse = `OK so food with ${userReq} is ${tag1} for you. <br> Do you have any allergy`;
       phase += 1;
     } else if (phase === 3) {
-      switch (userInput.includes("yes")) {
+      createUserReq("bad", arrayKeyword, userInput, userReq, keyReq);
+      switch (userInput.includes("yes") && keyReq.allergy == "") {
         case true:
           botResponse = `Oh what are you allergic to?`;
           phase += 1;
@@ -265,22 +283,38 @@ submitButton.addEventListener("click", (button) => {
     } else if (phase === 5) {
       createUserReq("good", arrayKeyword, userInput, userReq, keyReq);
       finalList = recommendMenu(arrayMenu, keyReq);
-      console.log(keyReq);
       console.log(finalList);
       botResponse = `Okay..I am ready to recommend you the food. <br> I recommend you to eat ${finalList[i].name}. Do you want this`;
       phase += 1;
     } else if (phase === 6) {
+      if (userInput.includes("yes") || userInput.includes("ok")) {
+        selectedDish = finalList[i].name;
+        drink = findDrink(selectedDish);
+        botResponse = `Enjoy your ${selectedDish}. <br> Would you like to add ${drink} as a drink for your meal?`;
+        console.log(selectedDish);
+        phase += 1;
+      } else if (i <= finalList.length) {
+        i++;
+        botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this`;
+      } else {
+        botResponse = `You are so picky. You don't get to eat`;
+      }
+    } else if (phase === 7) {
       switch (userInput.includes("yes") || userInput.includes("ok")) {
         case true:
-          botResponse = `Enjoy your ${finalList[i].name}.`;
+          botResponse = `Then Enjoy your ${selectedDish} with ${drink}. See you!`;
+          console.log(selectedDish, drink);
           phase += 1;
           break;
         default:
-          i++;
-          botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this`;
+          botResponse = `Then Enjoy your ${selectedDish} without drink. See you!`;
           break;
       }
     }
+    console.log(keyReq.allergy == "");
+    console.log(userInput.includes("yes"));
+    console.log(`Phase : ${phase}`);
+    console.log(keyReq);
     document.querySelector(
       "#valueInput"
     ).innerHTML += `<br> BOT said: ${botResponse} <br>`;

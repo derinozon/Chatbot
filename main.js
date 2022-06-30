@@ -7,8 +7,15 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+<<<<<<< foodtest
 server.listen(5000, function () {
   console.log("server started at port 5000");
+=======
+const PORT = process.env.PORT || 1337;
+
+server.listen(PORT, function () {
+    console.log(`Server running at http://localhost:${PORT}`);
+>>>>>>> main
 });
 
 io.on("connection", (socket) => {
@@ -18,8 +25,13 @@ io.on("connection", (socket) => {
     console.log(`Disconnected ID: ${socket.id} due to ${reason}`);
   });
 
+<<<<<<< foodtest
   socket.on("dish", (data) => {
     result = "I didnt quite understand that";
+=======
+    socket.on("question", (data) => {
+		result = "I didnt quite understand that";
+>>>>>>> main
 
     if (data.includes("cheese"))
       result = "You should try our delicious Quattro Formaggi!";
@@ -28,4 +40,8 @@ io.on("connection", (socket) => {
   });
 });
 
+<<<<<<< foodtest
 app.use(express.static("dummy"));
+=======
+app.use(express.static('frontend-react/build'));
+>>>>>>> main

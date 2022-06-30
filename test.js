@@ -353,7 +353,7 @@ const callingBot = (inputClass, outputID) => {
 //if user not reply in 30s repeat the previous response
 let lastMove = Date.now();
 const checkLastMove = (outputID) => {
-  if (Date.now() - lastMove > 3000) {
+  if (Date.now() - lastMove > 30000) {
     if (phase === 0) {
       document.querySelector(
         outputID

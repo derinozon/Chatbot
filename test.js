@@ -1,5 +1,3 @@
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
 const submitButton = document.querySelector(".submitbutton");
 let userInput;
 let botResponse;
@@ -99,10 +97,10 @@ const arrayMenu = [
   },
 ];
 
-function returnStep(array, inputData) {
+function returnStep(inputData) {
   return Math.max.apply(
     0,
-    array
+    arrayConversation
       .filter((object) =>
         object.pattern.find((element) => inputData.includes(element))
       )
@@ -110,18 +108,10 @@ function returnStep(array, inputData) {
   );
 }
 
-function giveResponse(array, step) {
-  return array[step]["response"][
-    Math.floor(Math.random() * array[step]["response"].length)
+function giveResponse(step) {
+  return arrayConversation[step]["response"][
+    Math.floor(Math.random() * arrayConversation[step]["response"].length)
   ];
-}
-
-function noReply(array, step) {
-  if (step < 2) {
-    return giveResponse(array, step + 1);
-  } else {
-    return giveResponse(array, step);
-  }
 }
 
 const arrayKeyword = [
@@ -140,7 +130,18 @@ const arrayKeyword = [
 const arrayGoodBad = [
   {
     tag: "bad",
-    pattern: ["allergic", "allergy", "hate", "without", "don't"],
+    pattern: [
+      "allergic",
+      "allergy",
+      "hate",
+      "without",
+      "don't",
+      "dont",
+      "vegan",
+      "vegetarian",
+      "on diet",
+      "i am fat",
+    ],
     step: 0,
   },
   {
@@ -159,7 +160,7 @@ const arrayDrink = [
   { menu: ["Salad", "Tiramisu"], drink: "water" },
 ];
 
-function returnTag(arrayGoodBad, inputData) {
+function returnTag(inputData) {
   return Math.min.apply(
     null,
     arrayGoodBad
@@ -181,17 +182,17 @@ function findDrink(dish) {
   }
 }
 
-function createUserReq(tag, keywordarray, inputdata, result, keyresult) {
+function createUserReq(tag, array, inputdata, result, keyresult) {
   if (tag == "bad") {
-    appendKeyword(keywordarray, inputdata, result, keyresult.allergy);
+    appendKeyword(array, inputdata, result, keyresult.allergy);
   } else if (tag == "good") {
-    appendKeyword(keywordarray, inputdata, result, keyresult.ingredient);
+    appendKeyword(array, inputdata, result, keyresult.ingredient);
   }
 }
 
-function appendKeyword(keywordarray, inputdata, result, keyresult) {
-  for (let i = 0; i < keywordarray.length; i++) {
-    let a = Object.values(keywordarray[i]);
+function appendKeyword(array, inputdata, result, keyresult) {
+  for (let i = 0; i < array.length; i++) {
+    let a = Object.values(array[i]);
     for (let j = 0; j < a.length; j++) {
       let b = Object.values(a[j]);
       for (let k = 0; k < b.length; k++) {
@@ -234,41 +235,42 @@ let finalList;
 let i = 0;
 let index = 0;
 let userReq = [];
-let keyReq = { allergy: [], flavor: [], ingredient: [] };
+let keyReq = { allergy: [], ingredient: [] };
 let running = true;
 let selectedDish;
 let drink;
 
-submitButton.addEventListener("click", (button) => {
-  let inputString = document.querySelector(".textInput").value;
+const callingBot = (inputClass, outputID) => {
+  let inputString = document.querySelector(inputClass).value;
   userInput = inputString.toLowerCase();
   document.querySelector(
-    "#valueInput"
+    outputID
   ).innerHTML += `<br> You said: ${inputString} <br>`;
   try {
+    //phase 1 - chit chat
     if (phase <= 1) {
-      botResponse = giveResponse(
-        arrayConversation,
-        returnStep(arrayConversation, userInput)
-      );
+      botResponse = giveResponse(returnStep(userInput));
       phase = 1;
       count = count + 1;
-      console.log(returnStep(arrayConversation, userInput));
-      if (count > 1) {
-        botResponse = botResponse + "<br> Do you have any food preference?";
-        count = 0;
+      // console.log(returnStep(userInput));
+      if (count > 3) {
+        botResponse =
+          botResponse +
+          "<br> Do you have any food preference ? (Vegetarian? Vegan? On-diet?)";
         phase = 2;
       }
-    } else if (phase === 2) {
-      let tag1 = arrayGoodBad[returnTag(arrayGoodBad, userInput)].tag;
+    }
+    //phase 2,3,4 - requirements gathering(allergy - like/dislike)
+    else if (phase === 2) {
+      let tag1 = arrayGoodBad[returnTag(userInput)].tag;
       createUserReq(tag1, arrayKeyword, userInput, userReq, keyReq);
-      botResponse = `OK so food with ${userReq} is ${tag1} for you. <br> Do you have any allergy`;
+      botResponse = `OK I will keep that in my mind. <br> Do you have any allergy ?`;
       phase += 1;
     } else if (phase === 3) {
       createUserReq("bad", arrayKeyword, userInput, userReq, keyReq);
       switch (userInput.includes("yes") && keyReq.allergy == "") {
         case true:
-          botResponse = `Oh what are you allergic to?`;
+          botResponse = `Oh! what are you allergic to?`;
           phase += 1;
           break;
         default:
@@ -280,27 +282,37 @@ submitButton.addEventListener("click", (button) => {
       createUserReq("bad", arrayKeyword, userInput, userReq, keyReq);
       botResponse = `Okay..you are allergic to ${keyReq.allergy}. <br> Do you have any favorite ingredients to eat?`;
       phase += 1;
-    } else if (phase === 5) {
+    }
+    //phase 5 - start recommend food
+    else if (phase === 5) {
       createUserReq("good", arrayKeyword, userInput, userReq, keyReq);
       finalList = recommendMenu(arrayMenu, keyReq);
       console.log(finalList);
-      botResponse = `Okay..I am ready to recommend you the food. <br> I recommend you to eat ${finalList[i].name}. Do you want this`;
+      botResponse = `Okay..I am ready to recommend you the food. <br> I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
       phase += 1;
     } else if (phase === 6) {
-      if (userInput.includes("yes") || userInput.includes("ok")) {
+      if (
+        userInput.includes("yes") ||
+        userInput.includes("ok") ||
+        userInput.includes("please")
+      ) {
         selectedDish = finalList[i].name;
         drink = findDrink(selectedDish);
-        botResponse = `Enjoy your ${selectedDish}. <br> Would you like to add ${drink} as a drink for your meal?`;
+        botResponse = `Enjoy your ${selectedDish}. <br> Would you like to add ${drink} as a drink for your meal ?`;
         console.log(selectedDish);
         phase += 1;
-      } else if (i <= finalList.length) {
+      } else if (i + 1 < finalList.length) {
         i++;
-        botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this`;
+        botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
       } else {
         botResponse = `You are so picky. You don't get to eat`;
       }
     } else if (phase === 7) {
-      switch (userInput.includes("yes") || userInput.includes("ok")) {
+      switch (
+        userInput.includes("yes") ||
+        userInput.includes("ok") ||
+        userInput.includes("please")
+      ) {
         case true:
           botResponse = `Then Enjoy your ${selectedDish} with ${drink}. See you!`;
           console.log(selectedDish, drink);
@@ -311,47 +323,56 @@ submitButton.addEventListener("click", (button) => {
           break;
       }
     }
-    console.log(keyReq.allergy == "");
-    console.log(userInput.includes("yes"));
     console.log(`Phase : ${phase}`);
     console.log(keyReq);
     document.querySelector(
-      "#valueInput"
+      outputID
     ).innerHTML += `<br> BOT said: ${botResponse} <br>`;
   } catch (e) {
     console.log(e);
     if (e instanceof TypeError) {
       if (botResponse === undefined && phase === 0) {
         document.querySelector(
-          "#valueInput"
-        ).innerHTML += `<br>BOT said: Hello Welcome to the Chatbot project..<br> Type something so we can start the process<br>`;
+          outputID
+        ).innerHTML += `<br>BOT said: Hello Welcome to the Chatbot project..<br> Type something like 'HI' so we can start the process<br>`;
       } else if (botResponse === undefined) {
         document.querySelector(
-          "#valueInput"
+          outputID
         ).innerHTML += `<br> BOT said: I DO NOT UNDERSTAND YOU. <br>I AM CONFUSED<br>`;
       } else {
         document.querySelector(
-          "#valueInput"
+          outputID
         ).innerHTML += `<br> BOT said: I DO NOT UNDERSTAND YOU. <br>I SAID ${botResponse} <br>`;
       }
     }
   }
+  //empty the input field
+  document.querySelector(inputClass).value = "";
+};
 
-  document.querySelector(".textInput").value = "";
-});
-
+//if user not reply in 30s repeat the previous response
 let lastMove = Date.now();
-document.addEventListener("mousemove", function () {
-  if (Date.now() - lastMove > 30000) {
+const checkLastMove = (outputID) => {
+  if (Date.now() - lastMove > 3000) {
     if (phase === 0) {
       document.querySelector(
-        "#valueInput"
-      ).innerHTML += `<br>BOT said: Hello Welcome to the Chatbot project..<br> Type something so we can start the process<br>`;
+        outputID
+      ).innerHTML += `<br>BOT said: Hello Welcome to the Chatbot project..<br> Type something like 'HI' so we can start the process<br>`;
     } else {
       document.querySelector(
-        "#valueInput"
+        outputID
       ).innerHTML += `<br> BOT said: I SAID ${botResponse} last 30 second and you did not respond. <br> Please answer me.<br>`;
     }
     lastMove = Date.now();
   }
+};
+
+//when user cilck send button -> call bot to answer
+submitButton.addEventListener("click", (button) => {
+  callingBot(".textInput", "#bodytext");
+});
+
+//if user not reply in 30s repeat the previous response
+document.addEventListener("mousemove", function () {
+  checkLastMove("#bodytext");
 });

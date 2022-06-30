@@ -6,8 +6,9 @@ const container = document.getElementById('chatbot');
 
 function Header() {
     function closeChat () {
-        container.style.display = "none";
-        alert("Do you want to close Gustoso?");
+		if (window.confirm("Do you want to close Gustoso?") == true) {
+			container.style.display = "none";
+		}
     }
     return (
         <div className="top_menu">

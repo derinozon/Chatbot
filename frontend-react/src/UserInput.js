@@ -13,6 +13,7 @@ function UserInput(props) {
     }
 
     function handleSubmit() {
+		if (inputText === "") return;
         props.onSubmitMessage(inputText);
         setInputText("");
     }

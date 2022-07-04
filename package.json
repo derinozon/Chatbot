@@ -4,7 +4,7 @@
   "description": "Internet Technologies Chatbot project",
   "main": "src/index.js",
   "scripts": {
-
+	"start": "node main.js"
   },
   "repository": {
     "type": "git",

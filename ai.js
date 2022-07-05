@@ -1,163 +1,30 @@
 let userInput;
 let botResponse;
 
-const arrayConversation = [
-  {
-    tag: "greeting",
-    pattern: [
-      "hi",
-      "hello",
-      "good day",
-      "greeting",
-      "good morning",
-      "good afternoon",
-      "what's up",
-      "guten tag",
-    ],
-    response: [
-      "HELLO",
-      "GREETINGS FROM BOT",
-      "GOOD DAY",
-      "GUTEN TAG",
-      "GREETINGS",
-      "WELCOME",
-      "YO",
-      "WHAT IS UP",
-    ],
-    step: 0,
-  },
-  {
-    tag: "intro",
-    pattern: ["name", "who", "intro"],
-    response: [
-      "MY NAME IS CHATBOT",
-      "I AM MADE FOR INTERNET TECHNOLOGY PROJECT",
-    ],
-    step: 1,
-  },
-  {
-    tag: "small talk",
-    pattern: ["how do you do", "how are you", "wie geht's", "wie geht"],
-    response: [
-      "I AM GOOD!",
-      "I DON'T HAVE FEELING",
-      "I LIKE TODAY, BECAUSE I GET TO TALK TO YOU",
-    ],
-    step: 2,
-  },
-  {
-    tag: "history",
-    pattern: ["history", "origin", "fun fact", "pizza"],
-    response: [
-      "Pizza has a long history. Flatbreads with toppings were consumed by the ancient Egyptians, Romans and Greeks.",
-      "TRY GOOGLE IT.",
-      "Everyone loves PIZZA",
-    ],
-    step: 3,
-  },
-];
-
-const arrayMenu = [
-  {
-    name: "Carbonara Pasta",
-    allergy: ["dairy", "fat", "vegan"],
-    ingredient: ["meat", "dairy"],
-    point: 0,
-  },
-  {
-    name: "Margahrita Pizza",
-    allergy: ["dairy", "fat", "vegan"],
-    ingredient: ["sour", "dairy", "meat"],
-    point: 0,
-  },
-  {
-    name: "Seafood Pizza",
-    allergy: ["dairy", "fat", "seafood", "vegan"],
-    ingredient: ["salty", "dairy", "seafood"],
-    point: 0,
-  },
-  {
-    name: "Mushroom Pizza",
-    allergy: ["dairy", "fat"],
-    ingredient: ["mushroom", "dairy"],
-    point: 0,
-  },
-  {
-    name: "Salad",
-    allergy: [],
-    ingredient: ["lowfat"],
-    point: 0,
-  },
-  {
-    name: "Tiramisu",
-    allergy: ["dairy", "fat"],
-    ingredient: ["sweet", "dairy"],
-    point: 0,
-  },
-];
+// Gets data from json file //
+const jsonRoot = JSON.parse( require('fs').readFileSync('aidata.json') );
+const arrayConversation = jsonRoot['arrayConversation'];
+const arrayMenu = jsonRoot['arrayMenu'];
+const arrayKeyword = jsonRoot['arrayKeyword'];
+const arrayGoodBad = jsonRoot['arrayGoodBad'];
+const arrayDrink = jsonRoot['arrayDrink'];
 
 function returnStep(inputData) {
-  return Math.max.apply(
-    0,
-    arrayConversation
-      .filter((object) =>
-        object.pattern.find((element) => inputData.includes(element))
-      )
-      .map((object) => object.step)
-  );
+	return Math.max.apply(
+	  0,
+	  arrayConversation
+		.filter((object) =>
+		  object.pattern.find((element) => inputData.includes(element))
+		)
+		.map((object) => object.step)
+	);
 }
-
+  
 function giveResponse(step) {
-  return arrayConversation[step]["response"][
-    Math.floor(Math.random() * arrayConversation[step]["response"].length)
-  ];
+	return arrayConversation[step]["response"][
+		Math.floor(Math.random() * arrayConversation[step]["response"].length)
+	];
 }
-
-const arrayKeyword = [
-  { dairy: ["dairy", "milk", "cream", "cheese"] },
-  { seafood: ["seafood", "shrimp", "fish", "squid", "octopus", "crab"] },
-  { meat: ["meat", "beef", "chicken", "pork"] },
-  { sweet: ["sweet", "dessert", "sugar"] },
-  { spicy: ["spicy", "hot", "chilli", "strong"] },
-  { salty: ["savory", "salt"] },
-  { sour: ["sour", "lemon"] },
-  { lowfat: ["lowfat", "low-fat", "on diet", "i am fat"] },
-  { vegan: ["vegan", "vegetarian"] },
-  { mushroom: ["mushroom", "champignon"] },
-];
-
-const arrayGoodBad = [
-  {
-    tag: "bad",
-    pattern: [
-      "allergic",
-      "allergy",
-      "hate",
-      "without",
-      "don't",
-      "dont",
-      "vegan",
-      "vegetarian",
-      "on diet",
-      "i am fat",
-    ],
-    step: 0,
-  },
-  {
-    tag: "good",
-    pattern: ["like", "love", "prefer", "favorite"],
-    step: 1,
-  },
-];
-
-const arrayDrink = [
-  { menu: ["Carbonara Pasta"], drink: "white wine" },
-  {
-    menu: ["Margahrita Pizza", "Mushroom Pizza", "Seafood Pizza"],
-    drink: "cola",
-  },
-  { menu: ["Salad", "Tiramisu"], drink: "water" },
-];
 
 function returnTag(inputData) {
   return Math.min.apply(
@@ -228,14 +95,11 @@ const recommendMenu = (array, inputReq) => {
   return finalList;
 };
 
-let count = 0;
 let phase = 1;
 let finalList;
 let i = 0;
-let index = 0;
 let userReq = [];
 let keyReq = { allergy: [], ingredient: [] };
-let running = true;
 let selectedDish;
 let drink;
 

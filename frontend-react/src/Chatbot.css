@@ -2,7 +2,7 @@
     width: calc(100% - 25px);
     max-width: 80vw;
     height: 80vh;
-    border-radius: 0px;
+    border-radius: 5px;
     margin: 30px auto;
     left: 50%;
     top: 30%;

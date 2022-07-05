@@ -22,10 +22,24 @@ io.on("connection", (socket) => {
         console.log(`disconnect ${socket.id} due to ${reason}`);
     });
 
-    socket.on("question", (data) => {
+    // socket.on("question", (data) => {
+	// 	result = ai.callingBot(data);
+    //     socket.emit("answer", result);
+    // });
+
+	socket.on("question", (data) => {
 		result = ai.callingBot(data);
-        socket.emit("answer", result);
+		if (result !== -1) {
+			socket.emit("answer", result);
+
+			socket.timeout(30000).emit("event", (err) => {
+				socket.emit("answer", "Hey, you havent responded in a while. Are you still there?");
+			});
+		}
+        
     });
+
+	
 
 	//socket.emit("answer", "Welcome to our restaurant, This is Gustoso, your personal assistant. You can ask me general questions or you can start ordering straight away!");
 });

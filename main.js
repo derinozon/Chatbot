@@ -22,31 +22,23 @@ io.on("connection", (socket) => {
     console.log(`disconnect ${socket.id} due to ${reason}`);
   });
 
-  // socket.on("question", (data) => {
-  // 	result = ai.callingBot(data);
-  //     socket.emit("answer", result);
-  // });
-
   socket.on("question", (data) => {
     result = ai.callingBot(data);
     if (result !== -1) {
       socket.emit("answer", result);
-      socket.timeout(15000).emit("event", () => {
-        socket.emit(
-          "answer",
-          "Hey, you havent responded in a while. Are you still there?"
-        );
-      });
+	  // Not working //
+	//   socket.timeout(15000).emit("event", () => {
+	//     socket.emit(
+	//       "answer",
+	//       "Hey, you havent responded in a while. Are you still there?"
+	//     );
+	//   });
     }
   });
 
-  // Not working //
-  // socket.timeout(30000).emit("event", (err) => {
-  // 	socket.emit("answer", "Hey, you havent responded in a while. Are you still there?");
-  // });
+  
 
   ai.init();
-  //socket.emit("answer", "Welcome to our restaurant, This is Gustoso, your personal assistant. You can ask me general questions or you can start ordering straight away!");
 });
 
 app.use(express.static("frontend-react/build"));

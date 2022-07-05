@@ -16,3 +16,12 @@
      background-size: cover;
     overflow: hidden;
 }
+
+@media (max-width:768px) {
+    .chat_window {
+		margin: 0px;
+        height: 100vh;
+		max-width: 100vw;
+		width: 100vw;
+    }
+}

@@ -89,3 +89,9 @@
     font-size: 18px;
     font-weight: 300;
 }
+
+@media (max-width:768px) {
+	#messages {
+		height: 78%;
+	}
+}

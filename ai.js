@@ -2,34 +2,34 @@ let userInput;
 let botResponse;
 
 // Gets data from json file //
-const jsonRoot = JSON.parse( require('fs').readFileSync('aidata.json') );
-const arrayConversation = jsonRoot['arrayConversation'];
-const arrayMenu = jsonRoot['arrayMenu'];
-const arrayKeyword = jsonRoot['arrayKeyword'];
-const arrayGoodBad = jsonRoot['arrayGoodBad'];
-const arrayDrink = jsonRoot['arrayDrink'];
+const jsonRoot = JSON.parse(require("fs").readFileSync("aidata.json"));
+const arrayConversation = jsonRoot["arrayConversation"];
+const arrayMenu = jsonRoot["arrayMenu"];
+const arrayKeyword = jsonRoot["arrayKeyword"];
+const arrayGoodBad = jsonRoot["arrayGoodBad"];
+const arrayDrink = jsonRoot["arrayDrink"];
 
-function init () {
-	phase = 1
-	i = 0
-	botResponse = "";
+function init() {
+  phase = 1;
+  i = 0;
+  botResponse = "";
 }
 
 function returnStep(inputData) {
-	return Math.max.apply(
-	  0,
-	  arrayConversation
-		.filter((object) =>
-		  object.pattern.find((element) => inputData.includes(element))
-		)
-		.map((object) => object.step)
-	);
+  return Math.max.apply(
+    0,
+    arrayConversation
+      .filter((object) =>
+        object.pattern.find((element) => inputData.includes(element))
+      )
+      .map((object) => object.step)
+  );
 }
-  
+
 function giveResponse(step) {
-	return arrayConversation[step]["response"][
-		Math.floor(Math.random() * arrayConversation[step]["response"].length)
-	];
+  return arrayConversation[step]["response"][
+    Math.floor(Math.random() * arrayConversation[step]["response"].length)
+  ];
 }
 
 function returnTag(inputData) {
@@ -102,12 +102,26 @@ const recommendMenu = (array, inputReq) => {
 };
 
 const isNegative = (str) => {
-	return str.includes("no")||str.includes("nah")||str.includes("nope")||str.includes("don't")||str.includes("do not")||str.includes("dont");
-}
+  return (
+    str.includes("no") ||
+    str.includes("nah") ||
+    str.includes("nope") ||
+    str.includes("don't") ||
+    str.includes("do not") ||
+    str.includes("dont")
+  );
+};
 
-const isAffirmative  = (str) => {
-	return str.includes("ok")||str.includes("yes")||str.includes("yea")||str.includes("yeah")||str.includes("sure")||str.includes("please");
-}
+const isAffirmative = (str) => {
+  return (
+    str.includes("ok") ||
+    str.includes("yes") ||
+    str.includes("yea") ||
+    str.includes("yeah") ||
+    str.includes("sure") ||
+    str.includes("please")
+  );
+};
 
 let phase = 1;
 let finalList;
@@ -119,27 +133,27 @@ let drink;
 
 // Main communication method //
 const callingBot = (rawInput) => {
-	if (phase === -1) return -1;
+  if (phase === -1) return -1;
 
   userInput = rawInput.toLowerCase();
 
   try {
     //phase 1 - chit chat
     if (phase === 1) {
-		if (userInput.includes('order')) {
-			botResponse = "Are you on a specific diet i should know of? (Vegetarian? Vegan? On-diet?)";
-			phase=2;
-		}
-		else {
-			botResponse = giveResponse(returnStep(userInput));
-		}
+      if (userInput.includes("order")) {
+        botResponse =
+          "Are you on a specific diet I should know of? (Vegetarian? Vegan? On-diet?)";
+        phase = 2;
+      } else {
+        botResponse = giveResponse(returnStep(userInput));
+      }
     }
     //phase 2,3,4 - requirements gathering(allergy - like/dislike)
     else if (phase === 2) {
-		if (!isNegative(userInput)) {
-			let tag1 = arrayGoodBad[returnTag(userInput)].tag;
-			createUserReq(tag1, arrayKeyword, userInput, userReq, keyReq);
-		}
+      if (!isNegative(userInput)) {
+        let tag1 = arrayGoodBad[returnTag(userInput)].tag;
+        createUserReq(tag1, arrayKeyword, userInput, userReq, keyReq);
+      }
       botResponse = `OK I will keep that in my mind. Do you have any allergies?`;
       phase += 1;
     } else if (phase === 3) {
@@ -166,37 +180,34 @@ const callingBot = (rawInput) => {
       console.log(finalList);
       botResponse = `Okay..I am ready to recommend you the food.  I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
       phase += 1;
-    } 
-	else if (phase === 6) {
+    } else if (phase === 6) {
       if (isAffirmative(userInput)) {
         selectedDish = finalList[i].name;
         drink = findDrink(selectedDish);
         botResponse = `Enjoy your ${selectedDish}.  Would you like to add ${drink} as a drink for your meal ?`;
         console.log(selectedDish);
         phase += 1;
-      } 
-	  else if (isNegative(userInput)) {
-		if (i + 1 < finalList.length) {
-			i++;
-			botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
-		}
-		else {
-			botResponse = `You are so picky. You don't get to eat`;
-		}
-	  }
-	  else {
-			botResponse = "I didn't quite get that. Can you type a more clear answer as in 'yes' or 'no'?";
-	  }
-    } 
-    else if (phase === 7) {
+      } else if (isNegative(userInput)) {
+        if (i + 1 < finalList.length) {
+          i++;
+          botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
+        } else {
+          botResponse = `You are so picky. You don't get to eat. Bye!`;
+          phase = -1;
+        }
+      } else {
+        botResponse =
+          "I didn't quite get that. Can you type a more clear answer as in 'yes' or 'no'?";
+      }
+    } else if (phase === 7) {
       switch (isAffirmative(userInput)) {
         case true:
           botResponse = `Then Enjoy your ${selectedDish} with ${drink}. See you!`;
           console.log(selectedDish, drink);
-          phase=-1;
+          phase = -1;
           break;
         default:
-			phase=-1;
+          phase = -1;
           botResponse = `Then Enjoy your ${selectedDish} without drink. See you!`;
           break;
       }
@@ -209,9 +220,9 @@ const callingBot = (rawInput) => {
       if (botResponse === undefined && phase === 1) {
         return "Hello Welcome to the Chatbot project.. Type something like 'HI' so we can start the process";
       } else if (botResponse === undefined) {
-        return "I didn't quite get that. Could you try to ask difrently?";
+        return "I didn't quite get that. Could you try to ask differently?";
       } else {
-        return `I didn't quite get that. Could you try to ask difrently?`;
+        return `I didn't quite get that. Could you try to ask differently?`;
       }
     }
   }
@@ -220,10 +231,10 @@ const callingBot = (rawInput) => {
 };
 
 module.exports = {
-    callingBot: (input) => {
-        return callingBot(input);
-    },
-	init: () => {
-        return init();
-    }
+  callingBot: (input) => {
+    return callingBot(input);
+  },
+  init: () => {
+    return init();
+  },
 };

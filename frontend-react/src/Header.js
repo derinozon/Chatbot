@@ -40,7 +40,6 @@ function Header() {
             <div className="buttons">
                 <div className="button close" onClick={closeChat}/>
                 <div className="button minimize" onClick={hideChat}/>
-                <div className="button maximize"/>
             </div>
             <div className="title">Conversation with Gustoso</div>
         </div>   

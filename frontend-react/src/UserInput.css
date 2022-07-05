@@ -41,6 +41,7 @@
     text-align: center;
     float: right;
 }
+
 .bottom_wrapper .send_message:hover {
     color: #4959e1;
     background-color: #fff;

@@ -4,6 +4,7 @@
     height: 10vh;
     padding: 20px 0 15px;
     box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 .top_menu .buttons {
     margin: 3px 0 0 20px;
@@ -24,6 +25,7 @@
     -ms-background-size: cover;
     -o-background-size: cover;
      background-size: cover;
+     overflow: hidden;
 }
 .top_menu .buttons .button.minimize {
     background: url("./resources/minimize.png") no-repeat center center;
@@ -32,6 +34,7 @@
     -ms-background-size: cover;
     -o-background-size: cover;
      background-size: cover;
+     overflow: hidden;
 }
 .top_menu .buttons .button.maximize {
     background: url("./resources/maximize.png") no-repeat center center;
@@ -40,6 +43,7 @@
     -ms-background-size: cover;
     -o-background-size: cover;
      background-size: cover;
+     overflow: hidden;
 }
 .top_menu .title {
     text-align: center;

@@ -29,11 +29,14 @@ io.on("connection", (socket) => {
 
 	socket.on("question", (data) => {
 		result = ai.callingBot(data);
-        socket.emit("answer", result);
+		if (result !== -1) {
+			socket.emit("answer", result);
 
-		socket.timeout(30000).emit("event", (err) => {
-			socket.emit("answer", "Hey, you havent responded in a while. Are you still there?");
-		});
+			socket.timeout(30000).emit("event", (err) => {
+				socket.emit("answer", "Hey, you havent responded in a while. Are you still there?");
+			});
+		}
+        
     });
 
 	

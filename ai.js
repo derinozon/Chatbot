@@ -113,6 +113,8 @@ let drink;
 
 // Main communication method //
 const callingBot = (rawInput) => {
+	if (phase === -1) return -1;
+	
   userInput = rawInput.toLowerCase();
 
   try {
@@ -158,27 +160,37 @@ const callingBot = (rawInput) => {
       console.log(finalList);
       botResponse = `Okay..I am ready to recommend you the food.  I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
       phase += 1;
-    } else if (phase === 6) {
+    } 
+	else if (phase === 6) {
       if (isAffirmative(userInput)) {
         selectedDish = finalList[i].name;
         drink = findDrink(selectedDish);
         botResponse = `Enjoy your ${selectedDish}.  Would you like to add ${drink} as a drink for your meal ?`;
         console.log(selectedDish);
         phase += 1;
-      } else if (i + 1 < finalList.length) {
-        i++;
-        botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
-      } else {
-        botResponse = `You are so picky. You don't get to eat`;
-      }
-    } else if (phase === 7) {
+      } 
+	  else if (isNegative(userInput)) {
+		if (i + 1 < finalList.length) {
+			i++;
+			botResponse = `Then.. I recommend you to eat ${finalList[i].name}. Do you want this dish ?`;
+		}
+		else {
+			botResponse = `You are so picky. You don't get to eat`;
+		}
+	  }
+	  else {
+			botResponse = "I didn't quite get that. Can you type a more clear answer as in 'yes' or 'no'?";
+	  }
+    } 
+    else if (phase === 7) {
       switch (isAffirmative(userInput)) {
         case true:
           botResponse = `Then Enjoy your ${selectedDish} with ${drink}. See you!`;
           console.log(selectedDish, drink);
-          phase += 1;
+          phase=-1;
           break;
         default:
+			phase=-1;
           botResponse = `Then Enjoy your ${selectedDish} without drink. See you!`;
           break;
       }
@@ -189,9 +201,9 @@ const callingBot = (rawInput) => {
     console.log(e);
     if (e instanceof TypeError) {
       if (botResponse === undefined && phase === 1) {
-        return `Hello Welcome to the Chatbot project.. Type something like 'HI' so we can start the process`;
+        return "Hello Welcome to the Chatbot project.. Type something like 'HI' so we can start the process";
       } else if (botResponse === undefined) {
-        return `I didn't quite get that. Could you try to ask difrently?`;
+        return "I didn't quite get that. Could you try to ask difrently?";
       } else {
         return `I didn't quite get that. Could you try to ask difrently? ${botResponse}`;
       }

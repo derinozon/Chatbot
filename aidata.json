@@ -66,10 +66,16 @@
       "step": 4
     },
     {
+      "tag": "back",
+      "pattern": ["back", "return"],
+      "response": ["Welcome back!"],
+      "step": 5
+    },
+    {
       "tag": "help",
       "pattern": ["help", "how to use", "manual"],
       "response": ["You can start ordering food by simply type 'order'."],
-      "step": 5
+      "step": 6
     }
   ],
   "arrayMenu": [
@@ -207,7 +213,8 @@
   "arrayDrink": [
     {
       "menu": ["Carbonara Pasta", "Pomodoro Pasta", "Spicy Seafood Pasta"],
-      "drink": "white wine"
+      "alc": "white wine",
+      "non": "sprite"
     },
     {
       "menu": [
@@ -216,15 +223,18 @@
         "Foccacia Bread",
         "Beef Lasagna"
       ],
-      "drink": "red wine"
+      "alc": "red wine",
+      "non": "grape juice"
     },
     {
       "menu": ["Margahrita Pizza", "Mushroom Pizza", "Seafood Pizza"],
-      "drink": "cola"
+      "alc": "dark beer",
+      "non": "cola"
     },
     {
       "menu": ["Chicken Salad", "Salad", "Tiramisu", "Pannacotta"],
-      "drink": "water"
+      "alc": "vodka",
+      "non": "water"
     }
   ]
 }

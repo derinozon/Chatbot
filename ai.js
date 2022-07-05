@@ -43,12 +43,12 @@ function returnTag(inputData) {
   );
 }
 
-function findDrink(dish) {
+function findDrink(dish, type) {
   for (let i = 0; i < arrayDrink.length; i++) {
     let a = arrayDrink[i].menu;
     for (let j = 0; j < a.length; j++) {
       if (dish === a[j]) {
-        return arrayDrink[i].drink;
+        return arrayDrink[i][type];
       }
     }
   }
@@ -183,8 +183,7 @@ const callingBot = (rawInput) => {
     } else if (phase === 6) {
       if (isAffirmative(userInput)) {
         selectedDish = finalList[i].name;
-        drink = findDrink(selectedDish);
-        botResponse = `Enjoy your ${selectedDish}. Would you like to add ${drink} as a drink for your meal?`;
+        botResponse = `Enjoy your ${selectedDish}.  I would like to also recommed you the pairing drink. Would you like an alcoholic drink?`;
         console.log(selectedDish);
         phase += 1;
       } else if (isNegative(userInput)) {
@@ -196,27 +195,34 @@ const callingBot = (rawInput) => {
           phase = -1;
         }
       } else {
-        botResponse = "I didn't quite get that. Can you type a more clear answer as in 'yes' or 'no'?";
+        botResponse =
+          "I didn't quite get that. Can you type a more clear answer as in 'yes' or 'no'?";
+      }
+    } else if (phase === 7) {
+      if (isAffirmative(userInput)) {
+        drink = findDrink(selectedDish, "alc");
+      } else if (isNegative(userInput)) {
+        drink = findDrink(selectedDish, "non");
+      }
+      console.log(selectedDish, drink);
+      botResponse = `Your ${selectedDish} will go well with ${drink}. Would you like to add ${drink} to your meal?`;
+      phase++;
+    } else if (phase === 8) {
+      let menu = `${selectedDish} without any drinks`;
+      if (isAffirmative(userInput)) {
+        menu = `${selectedDish} with ${drink}`;
+      }
+      botResponse = `Thank you for choosing our restaurant! You order of ${menu} will be prepared and delivered soon. I would be thankfull if you can rate your experience with me out of 5.`;
+      phase++;
+    } else if (phase === 9) {
+      let num = parseInt(userInput);
+      if (num >= 0 && num <= 5) {
+        botResponse = `Thanks for the feedback!`;
+        phase = -1;
+      } else {
+        botResponse = `Invalid rating, can you try again?`;
       }
     }
-	else if (phase === 7) {
-		let menu = `${selectedDish} without any drinks`;
-        if (isAffirmative(userInput)) {
-			menu = `${selectedDish} with ${drink}`;
-    	}
-	  botResponse = `Thank you for choosing our restaurant! You order of ${menu} will be prepared and delivered soon. I would be thankfull if you can rate your experience with me out of 5.`;
-	  phase++;
-    }
-	else if (phase === 8) {
-		let num = parseInt(userInput);
-		if (num >= 0 && num <= 5) {
-			botResponse = `Thanks for the feedback!`;
-			phase=-1;
-		}
-		else {
-			botResponse = `Invalid rating, can you try again?`;
-		}
-	  }
     console.log(`Phase : ${phase}`);
     console.log(keyReq);
   } catch (e) {
@@ -224,8 +230,6 @@ const callingBot = (rawInput) => {
     if (e instanceof TypeError) {
       if (botResponse === undefined && phase === 1) {
         return "You can type something like 'Hello' or 'I would like to order' so we can start our conversation";
-      } else if (botResponse === undefined) {
-        return "I didn't quite get that. Could you try to ask differently?";
       } else {
         return `I didn't quite get that. Could you try to ask differently?`;
       }
@@ -241,5 +245,5 @@ module.exports = {
   },
   init: () => {
     return init();
-  }
+  },
 };

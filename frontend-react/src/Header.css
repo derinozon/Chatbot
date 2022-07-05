@@ -10,8 +10,8 @@
     position: absolute;
 }
 .top_menu .buttons .button {
-    width: 2.5vw;
-    height: 3vh;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     display: inline-block;
     margin-right: 10px;

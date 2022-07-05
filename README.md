@@ -1,5 +1,5 @@
 # Chatbot
-A node based web application incorperating a dish reccomendation AI for a pizza restaurant built for our Internet Technologies term project.
+A node based web application incorperating a dish reccomendation AI for a pizza restaurant built for our Internet Technologies term project. You can visit the webpage here: https://gustoso.azurewebsites.net
 
 How to get started:
 1. Clone this repository (`git clone https://github.com/derinozon/Chatbot.git`)

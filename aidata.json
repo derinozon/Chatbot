@@ -1,138 +1,230 @@
 {
-	"arrayConversation": [
-		{
-		  "tag": "greeting",
-		  "pattern": [
-			"hi",
-			"hello",
-			"good day",
-			"greeting",
-			"good morning",
-			"good afternoon",
-			"what's up",
-			"guten tag"
-		  ],
-		  "response": [
-			"HELLO",
-			"GREETINGS FROM BOT",
-			"GOOD DAY",
-			"GUTEN TAG",
-			"GREETINGS",
-			"WELCOME",
-			"YO",
-			"WHAT IS UP"
-		  ],
-		  "step": 0
-		},
-		{
-		  "tag": "intro",
-		  "pattern": ["name", "who", "intro"],
-		  "response": [
-			"MY NAME IS CHATBOT",
-			"I AM MADE FOR INTERNET TECHNOLOGY PROJECT"
-		  ],
-		  "step": 1
-		},
-		{
-		  "tag": "small talk",
-		  "pattern": ["how do you do", "how are you", "wie geht's", "wie geht"],
-		  "response": [
-			"I AM GOOD!",
-			"I DON'T HAVE FEELING",
-			"I LIKE TODAY, BECAUSE I GET TO TALK TO YOU"
-		  ],
-		  "step": 2
-		},
-		{
-		  "tag": "history",
-		  "pattern": ["history", "origin", "fun fact", "pizza"],
-		  "response": [
-			"Pizza has a long history. Flatbreads with toppings were consumed by the ancient Egyptians, Romans and Greeks.",
-			"TRY GOOGLE IT.",
-			"Everyone loves PIZZA"
-		  ],
-		  "step": 3
-		}
-	],
-	"arrayMenu": [
-		{
-		  "name": "Carbonara Pasta",
-		  "allergy": ["dairy", "fat", "vegan"],
-		  "ingredient": ["meat", "dairy"],
-		  "point": 0
-		},
-		{
-		  "name": "Margahrita Pizza",
-		  "allergy": ["dairy", "fat", "vegan"],
-		  "ingredient": ["sour", "dairy", "meat"],
-		  "point": 0
-		},
-		{
-		  "name": "Seafood Pizza",
-		  "allergy": ["dairy", "fat", "seafood", "vegan"],
-		  "ingredient": ["salty", "dairy", "seafood"],
-		  "point": 0
-		},
-		{
-		  "name": "Mushroom Pizza",
-		  "allergy": ["dairy", "fat"],
-		  "ingredient": ["mushroom", "dairy"],
-		  "point": 0
-		},
-		{
-		  "name": "Salad",
-		  "allergy": [],
-		  "ingredient": ["lowfat"],
-		  "point": 0
-		},
-		{
-		  "name": "Tiramisu",
-		  "allergy": ["dairy", "fat"],
-		  "ingredient": ["sweet", "dairy"],
-		  "point": 0
-		}
-	],
-	"arrayKeyword": [
-		{ "dairy": ["dairy", "milk", "cream", "cheese"] },
-		{ "seafood": ["seafood", "shrimp", "fish", "squid", "octopus", "crab"] },
-		{ "meat": ["meat", "beef", "chicken", "pork"] },
-		{ "sweet": ["sweet", "dessert", "sugar"] },
-		{ "spicy": ["spicy", "hot", "chilli", "strong"] },
-		{ "salty": ["savory", "salt"] },
-		{ "sour": ["sour", "lemon"] },
-		{ "lowfat": ["lowfat", "low-fat", "on diet", "i am fat"] },
-		{ "vegan": ["vegan", "vegetarian"] },
-		{ "mushroom": ["mushroom", "champignon"] }
-	],
-	"arrayGoodBad": [
-		{
-		  "tag": "bad",
-		  "pattern": [
-			"allergic",
-			"allergy",
-			"hate",
-			"without",
-			"don't",
-			"dont",
-			"vegan",
-			"vegetarian",
-			"on diet",
-			"i am fat"
-		  ],
-		  "step": 0
-		},
-		{
-		  "tag": "good",
-		  "pattern": ["like", "love", "prefer", "favorite"],
-		  "step": 1
-		}
-	],
-	"arrayDrink": [
-		{ "menu": ["Carbonara Pasta"], "drink": "white wine" },
-		{
-		  "menu": ["Margahrita Pizza", "Mushroom Pizza", "Seafood Pizza"],
-		  "drink": "cola"
-		},
-		{ "menu": ["Salad", "Tiramisu"], "drink": "water" }
-	]
+  "arrayConversation": [
+    {
+      "tag": "greeting",
+      "pattern": [
+        "hi",
+        "hey",
+        "hello",
+        "good day",
+        "greeting",
+        "good morning",
+        "good afternoon",
+        "what's up",
+        "guten tag"
+      ],
+      "response": [
+        "Hello! This is Gustoso, the Chatbot.",
+        "Greetings from Gustoso.",
+        "Good Day!",
+        "Guten Tag",
+        "Welcome!",
+        "Ciao"
+      ],
+      "step": 0
+    },
+    {
+      "tag": "intro",
+      "pattern": ["name", "who", "intro", "gustoso"],
+      "response": [
+        "My name is Gustoso.",
+        "Gustoso is made for Internet Technology Project."
+      ],
+      "step": 1
+    },
+    {
+      "tag": "small talk",
+      "pattern": [
+        "how do you do",
+        "how are you",
+        "wie geht's",
+        "wie geht",
+        "how is it going"
+      ],
+      "response": [
+        "I am good!",
+        "I don't have feeing.",
+        "I like today because I get to talk to you."
+      ],
+      "step": 2
+    },
+    {
+      "tag": "history",
+      "pattern": ["history", "origin", "fun fact", "pizza", "italian"],
+      "response": [
+        "Pizza has a long history. Flatbreads with toppings were consumed by the ancient Egyptians, Romans and Greeks.",
+        "About 350 slices of pizza are consumed every second in the US.",
+        "The most expensive pizza in the world costs about $12,000.",
+        "Everyone loves PIZZA."
+      ],
+      "step": 3
+    },
+    {
+      "tag": "bye",
+      "pattern": ["bye", "see you"],
+      "response": ["Wait... where are you going? Comeback and talk to me."],
+      "step": 4
+    },
+    {
+      "tag": "help",
+      "pattern": ["help", "how to use", "manual"],
+      "response": ["You can start ordering food by simply type 'order'."],
+      "step": 5
+    }
+  ],
+  "arrayMenu": [
+    {
+      "name": "Carbonara Pasta",
+      "allergy": ["lowfat", "vegan", "pork", "cheese", "dairy"],
+      "ingredient": ["pork", "cheese", "dairy"],
+      "point": 0
+    },
+    {
+      "name": "Beef Lasagna",
+      "allergy": ["lowfat", "vegan", "cheese", "dairy", "beef", "tomato"],
+      "ingredient": ["cheese", "beef", "tomato"],
+      "point": 0
+    },
+    {
+      "name": "Pomodoro Pasta",
+      "allergy": ["lowfat", "tomato"],
+      "ingredient": ["tomato", "tomato"],
+      "point": 0
+    },
+    {
+      "name": "Spicy Seafood Pasta",
+      "allergy": ["lowfat", "vegan", "seafood", "spicy", "cheese", "dairy"],
+      "ingredient": ["seafood", "spicy", "cheese"],
+      "point": 0
+    },
+    {
+      "name": "Margahrita Pizza",
+      "allergy": ["lowfat", "sour", "tomato", "cheese", "dairy", "basil"],
+      "ingredient": ["sour", "tomato", "cheese", "basil"],
+      "point": 0
+    },
+    {
+      "name": "Seafood Pizza",
+      "allergy": ["lowfat", "vegan", "seafood", "cheese", "dairy"],
+      "ingredient": ["seafood", "cheese"],
+      "point": 0
+    },
+    {
+      "name": "Mushroom Pizza",
+      "allergy": ["lowfat", "mushroom", "cheese", "dairy"],
+      "ingredient": ["mushroom", "cheese"],
+      "point": 0
+    },
+    {
+      "name": "Mixed Sausages",
+      "allergy": ["lowfat", "vegan", "pork", "chicken", "spicy", "mushroom"],
+      "ingredient": ["pork", "chicken", "spicy", "mushroom"],
+      "point": 0
+    },
+    {
+      "name": "Tenderloin Steak",
+      "allergy": ["lowfat", "vegan", "beef", "onion"],
+      "ingredient": ["beef", "beef", "onion"],
+      "point": 0
+    },
+    {
+      "name": "Chicken Salad",
+      "allergy": ["vegan", "chicken", "tomato", "onion", "olive"],
+      "ingredient": ["lowfat", "chicken", "tomato", "onion", "olive"],
+      "point": 0
+    },
+    {
+      "name": "Salad",
+      "allergy": ["tomato", "onion", "olive"],
+      "ingredient": ["lowfat", "tomato", "onion", "olive"],
+      "point": 0
+    },
+    {
+      "name": "Foccacia Bread",
+      "allergy": ["basil", "onion", "tomato", "cheese", "dairy", "olive"],
+      "ingredient": ["lowfat", "basil", "onion", "tomato", "cheese", "olive"],
+      "point": 0
+    },
+    {
+      "name": "Tiramisu",
+      "allergy": ["lowfat", "sweet", "dairy"],
+      "ingredient": ["sweet", "dairy"],
+      "point": 0
+    },
+    {
+      "name": "Pannacotta",
+      "allergy": ["lowfat", "sweet", "dairy", "sour"],
+      "ingredient": ["sweet", "dairy", "sour"],
+      "point": 0
+    }
+  ],
+
+  "arrayKeyword": [
+    { "dairy": ["dairy", "milk", "cream"] },
+    { "cheese": ["cheese", "cheesy"] },
+    { "seafood": ["seafood", "shrimp", "fish", "squid", "octopus", "crab"] },
+    { "beef": ["beef", "meat"] },
+    { "chicken": ["chicken", "chick"] },
+    { "pork": ["pork", "ham", "bacon"] },
+    { "sweet": ["sweet", "dessert", "sugar"] },
+    { "spicy": ["spicy", "hot", "chilli", "strong"] },
+    { "sour": ["sour", "lemon"] },
+    { "lowfat": ["lowfat", "low-fat", "on diet", "on-diet", "i am fat"] },
+    { "vegan": ["vegan", "vegetarian"] },
+    { "mushroom": ["mushroom", "champignon"] },
+    { "onion": ["onion"] },
+    { "olive": ["olive"] },
+    { "basil": ["basil", "pesto"] },
+    { "tomato": ["tomato", "pomodoro"] }
+  ],
+
+  "arrayGoodBad": [
+    {
+      "tag": "bad",
+      "pattern": [
+        "allergic",
+        "allergy",
+        "hate",
+        "without",
+        "dont",
+        "don't",
+        "dont",
+        "vegan",
+        "vegetarian",
+        "on diet",
+        "on diet",
+        "i am fat"
+      ],
+      "step": 0
+    },
+    {
+      "tag": "good",
+      "pattern": ["like", "love", "prefer", "favorite"],
+      "step": 1
+    }
+  ],
+
+  "arrayDrink": [
+    {
+      "menu": ["Carbonara Pasta", "Pomodoro Pasta", "Spicy Seafood Pasta"],
+      "drink": "white wine"
+    },
+    {
+      "menu": [
+        "Mixed Sausages",
+        "Tenderloin Steak",
+        "Foccacia Bread",
+        "Beef Lasagna"
+      ],
+      "drink": "red wine"
+    },
+    {
+      "menu": ["Margahrita Pizza", "Mushroom Pizza", "Seafood Pizza"],
+      "drink": "cola"
+    },
+    {
+      "menu": ["Chicken Salad", "Salad", "Tiramisu", "Pannacotta"],
+      "drink": "water"
+    }
+  ]
 }

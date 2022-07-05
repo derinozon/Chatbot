@@ -13,7 +13,7 @@ function Chatbot() {
       Handle messages
      */
     const [messages, setMessages] = useState([{
-        text: "Hello, i am the Internet Technologies Chatbot, how can i help you?",
+        text: "Welcome to our restaurant, This is Gustoso, your personal assistant. How can I help you?",
         position: "left"
     }]);
 

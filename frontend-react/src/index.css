@@ -20,3 +20,9 @@ body {
 #chatbot {
     position: relative;
 }
+
+/* .bottom_wrapper{
+	position: relative;
+	top: 100%;
+	transform: translateY(-100%);
+ } */

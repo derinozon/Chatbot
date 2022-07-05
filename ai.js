@@ -9,6 +9,12 @@ const arrayKeyword = jsonRoot['arrayKeyword'];
 const arrayGoodBad = jsonRoot['arrayGoodBad'];
 const arrayDrink = jsonRoot['arrayDrink'];
 
+function init () {
+	phase = 1
+	i = 0
+	botResponse = "";
+}
+
 function returnStep(inputData) {
 	return Math.max.apply(
 	  0,
@@ -114,7 +120,7 @@ let drink;
 // Main communication method //
 const callingBot = (rawInput) => {
 	if (phase === -1) return -1;
-	
+
   userInput = rawInput.toLowerCase();
 
   try {
@@ -205,7 +211,7 @@ const callingBot = (rawInput) => {
       } else if (botResponse === undefined) {
         return "I didn't quite get that. Could you try to ask difrently?";
       } else {
-        return `I didn't quite get that. Could you try to ask difrently? ${botResponse}`;
+        return `I didn't quite get that. Could you try to ask difrently?`;
       }
     }
   }
@@ -216,5 +222,8 @@ const callingBot = (rawInput) => {
 module.exports = {
     callingBot: (input) => {
         return callingBot(input);
+    },
+	init: () => {
+        return init();
     }
 };

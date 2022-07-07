@@ -10,9 +10,14 @@ const arrayGoodBad = jsonRoot["arrayGoodBad"];
 const arrayDrink = jsonRoot["arrayDrink"];
 
 function init() {
-  phase = 1;
-  i = 0;
-  botResponse = "";
+	phase = 1;
+	i = 0;
+	botResponse = "";
+	finalList = null;
+	userReq = [];
+	keyReq = { allergy: [], ingredient: [] };
+	selectedDish = null;
+	drink = null;
 }
 
 function returnStep(inputData) {

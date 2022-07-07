@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
     result = ai.callingBot(data);
     if (result !== -1) {
       socket.emit("answer", result);
-	  // Not working //
+	  // Not working unfortunately //
 	//   socket.timeout(15000).emit("event", () => {
 	//     socket.emit(
 	//       "answer",
